@@ -54,3 +54,5 @@ cp id_rsa id_rsa.pub ~/.ssh/
 
 ssh -T git@github.com
 
+git pull --rebase origin master
+
