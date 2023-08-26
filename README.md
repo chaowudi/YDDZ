@@ -28,23 +28,24 @@ cat .git/COMMIT_EDITMsG
 git status
 
 git branch -m master
+git branch --show-current
 git push -u origin master
 
 whoami
 pwd
 git remote add origin git@github.com:chaowudi/YDDZ.git
 git remote add origin https://github.com/chaowudi/HFT.git
+git remote -v
 user.name "chaowudo"
 user.password "xxxxxx"
-
 git pull origin main
 
 
-whoami
-ls
 git clone https://github.com/chaowudi/HFT.git
-ls 
-cd HFT
+
 ls -a
 git log
+git branch -m main 
+git branch --show-current
+git push origin main
 
