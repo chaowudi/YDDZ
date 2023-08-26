@@ -38,7 +38,7 @@ git remote add origin https://github.com/chaowudi/HFT.git
 git remote -v
 user.name "chaowudo"
 user.password "xxxxxx"
-git pull origin main
+git pull origin master
 
 
 git clone https://github.com/chaowudi/HFT.git
@@ -55,4 +55,7 @@ cp id_rsa id_rsa.pub ~/.ssh/
 ssh -T git@github.com
 
 git pull --rebase origin master
+
+git push origin main
+git pull origin main
 
