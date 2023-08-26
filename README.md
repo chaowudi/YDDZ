@@ -27,3 +27,24 @@ git commit -m "Initail commit"
 cat .git/COMMIT_EDITMsG
 git status
 
+git branch -m master
+git push -u origin master
+
+whoami
+pwd
+git remote add origin git@github.com:chaowudi/YDDZ.git
+git remote add origin https://github.com/chaowudi/HFT.git
+user.name "chaowudo"
+user.password "xxxxxx"
+
+git pull origin main
+
+
+whoami
+ls
+git clone https://github.com/chaowudi/HFT.git
+ls 
+cd HFT
+ls -a
+git log
+
