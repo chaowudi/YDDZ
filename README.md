@@ -49,3 +49,8 @@ git branch -m main
 git branch --show-current
 git push origin main
 
+ssh-keygen -t rsa -C "name"
+cp id_rsa id_rsa.pub ~/.ssh/
+
+ssh -T git@github.com
+
