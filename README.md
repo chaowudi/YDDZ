@@ -60,7 +60,8 @@ git pull --rebase origin master
 git push origin main
 git pull origin main
 
-git push -u origin main
+git push -u origin main	// -u 记录分支参数,下次使用可省略
+git push -u -f origin main // -f 是强制推送,强制推送可以覆盖master
 git push
 git pull
 
