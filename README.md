@@ -19,6 +19,7 @@ cat ~/YDDZ/.git/config
 
 git add README.md
 git add .
+git rm -cached xxx.xxx
 cat .gitignore
 
 git status
@@ -61,5 +62,6 @@ git pull origin main
 
 git push -u origin main
 git push
-git pll
+git pull
+
 
