@@ -5,6 +5,41 @@ Bash是一个命令处理器，通常运行于文本窗口中，并能执行用�
 
 链接: https://pan.baidu.com/s/1GcsD2gZjCE38jMabupRe5A?pwd=7dee 提取码: 7dee
 
+compgen -c //ubuntu内部命令
+ps -ef
+top
+sudo lshw -C network
+ifconfig
+date
+df -lh
+systemctl show
+systemctl status ssh
+netstat -atunp		//查询所有端口状态
+netstat -anp | grep 8080	//查询8080端口状态
+kill -9 PID
+vim /etc/hostname		//更改主机名
+mkdir xxx
+touch xxx
+rm -rf xxx
+mv xxx yyy
+cp xxx yyy
+chmod o+wr xxx 		//增加写入和读取权限
+chmod 777 xxx
+chown -R user xxx	//为用户增加xxx所有权限
+chown -R user:group xxx	//为xxx指定用户和组
+每个 <模式> 都应当符合此格式："[ugoa]*([-+=]([rwxXst]*|[ugo]))+|[-+=][0-7]+"。
+sudo chgrp users ./share/
+
+ls -lh
+whereis xxx		//查看xxx安装路径
+tree /home
+find / -name xxx
+find /opt -user root	//查询用户名为root所有文件	
+sudo -i //root用户
+
+tar -zcvf xxx.tar.gz xxx/
+tar -zxvf xxx.tgz 
+
 
 sudo mount -o rw,remount /dev/sdd1
 
@@ -20,15 +55,18 @@ sudo ntfsfix /dev/sdb1
 sudo umount -a
 sudo mount -a
 
-fbterm byobu
+fbterm byobu 
+cd $(ls -1 | sed -n 3p) //选择进入乱码目录
+
 fcitx
 startx
-
+//安装图形界面
 apt remove lightdm
 apt install ubuntu-desktop
 apt install unity
 apt install lightdm
 
+sudo grub-install
 sudo update-grub
 sudo apt remove --purge alsa-base
 sudo apt remove --purge pulseaudio
@@ -36,4 +74,96 @@ sudo apt install alsa-base
 sudo apt install pulseaudio
 sudo alsa force-reload
 
+grep swap /etc/fstab 
+swapon -s
+swapoff -a
+swapoff /dev/sdc2
+sudo swapon -p 1 /dev/sdc2
+sudo sysctl vm.swappiness=60
+sudo gedit /etc/sysctl.conf 
 
+which boot-repair
+systemd-analyze blame //启动占用时间分析
+
+lsblk
+losetup -a
+sudo apt autoremove --purge snapd 
+snap list --all
+sudo snap remove firefox
+
+dd if=/dev/sda1 of=/mnt/sys.img bs=4M
+dd if=/mnt/sys.img of=/dev/sda1 bs=4M status=progress
+dd if=testfile_2 of=testfile_1 conv=ucase 
+dd if=input.file of=output.gz bs=1M conv=sync,noerror
+
+sudo blkid //显示所有硬盘ID
+blkid /dev/sdc3
+xfs_admin /dev/sdc3 //重新生成UUID
+sudo tune2fs -U random /dev/sda1 //重新生成UUID
+lsblk //显示磁盘分区
+sudo fdisk -l 
+
+
+# 这是用逗号分隔的字符集列表，gFTP,二进制传输模式。
+# 会使用这些字符集将远程信息转换为当前语系。
+remote_charsets=gb2312,utf-8
+
+ibus-daemon -drx 切换ibus输入法
+fcitx-remote -s
+
+使用dd命令克隆一个硬盘通常会克隆原始硬盘的所有数据，包括MBR（主引导记录）、GPT（GUID分区表）和分区表。如果克隆后的硬盘无法启动，可能是因为以下原因：
+
+MBR被克隆，但是硬盘大小或分区结构发生了变化。
+
+GPT分区表没有被正确克隆或者克隆后的硬盘不支持GPT。
+
+克隆过程中某些重要的启动分区或数据丢失或损坏。
+
+解决方法：
+
+确认克隆过程中是否有错误提示。
+
+使用gdisk或fdisk检查克隆后硬盘的分区表，确认分区类型和大小是否正确。
+
+如果是UEFI启动，确保GPT分区表正确，可能需要使用gdisk或parted工具修复。
+
+如果是BIOS启动，确保MBR是正确的，可以使用bootrec命令（Windows）或者fdisk（Linux）和mkfs命令修复MBR。
+
+确保引导加载程序配置正确，如GRUB。
+
+如果有必要，可以尝试重新安装引导加载程序，如使用Windows安装盘修复引导记录，或者在Linux中使用chroot环境安装GRUB。
+
+chroot 需要先绑定目录proc,sys,dev 切换根路径成功后安装grub-install.
+
+重新生成该内核的initrd.img文件重置swap分区UUID,如果不拆除原硬盘还需要重新生成新硬盘分区UUID,修改fstab分区加载配置.
+
+sudo lsblk
+sudo more /etc/fstab
+#fix mbr grub boot
+mkdir /mnt/gao
+sudo mount /dev/sda2 /mnt/gao/
+sudo mount /dev/sda1 /mnt/gao/boot/
+sudo mount --bind /proc /mnt/gao/proc/
+sudo mount --bind /sys /mnt/gao/sys/
+sudo mount --bind /dev /mnt/gao/dev/
+sudo chroot /mnt/gao
+sudo update-grub
+sudo umount /mnt/gao/{proc,sys,dev}
+sudo umount /mnt/gao/boot 
+sudo umount /mnt/gao/
+#change swap
+sudo mkswap /dev/sda4
+sudo swapon /dev/sda4
+swapon -s
+swapoff /dev/sdc2
+sudo nano /etc/fstab
+systemctl list-units --type=service //加载服务列表
+systemctl  list-units --failed  //查看加载失败的服务程序
+journalctl -xeu user@1000.service //获取服务动态systemctl status user@1000.service
+
+sudo truncate -s 0 /var/log/syslog //清除日志文件
+sudo journalctl --vacuum-time=1d // 清除systemd-journald 存储的日志
+
+sudo update-initramfs -u 更新当前内核initramfs,swap UUID
+du -h /boot/vmlinuz-6.5.0-35-generic 
+du -h /boot/initrd.img-6.5.0-35-generic

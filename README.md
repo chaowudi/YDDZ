@@ -1,5 +1,5 @@
 # Hello git world  
-https://githu.com/chaowudi/YDDZ.git  
+https://github.com/chaowudi/YDDZ.git  
 
 # YDDZ  
 
