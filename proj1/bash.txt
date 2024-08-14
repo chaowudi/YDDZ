@@ -167,3 +167,19 @@ sudo journalctl --vacuum-time=1d // 清除systemd-journald 存储的日志
 sudo update-initramfs -u 更新当前内核initramfs,swap UUID
 du -h /boot/vmlinuz-6.5.0-35-generic 
 du -h /boot/initrd.img-6.5.0-35-generic
+
+#sudo nano /etc/grub.d/40_custom
+menuentry "Live Ubuntu" {
+    insmod loopback
+    set isofile="/media/gonagawa/ubuntu-24.04-desktop-amd64.iso"
+    loopback loop (hd0,2)$isofile
+    linux (loop)/casper/vmlinuz boot=casper iso-scan/filename=$isofile quiet splash
+    initrd (loop)/casper/initrd
+}
+menuentry "Boot from ISO" {
+    set isofile="/media/gonagawa/boot-repair-disk-64bit.iso"	#指定ISO文件的位置
+    loopback loop (hd0,2)$isofile	#创建一个循环设备来装载ISO
+    linux (loop)/casper/vmlinuz boot=casper iso-scan/filename=$isofile quiet splash	#指定内核和初始化RAM磁盘位置
+    initrd (loop)/casper/initrd.lz
+}
+
