@@ -1,0 +1,20 @@
+gcc -o main.out main.c
+gcc -o main.elf main.c
+gcc -c main.o main.c file1.c
+
+readelf -S main.elf #查询节头表
+readelf -s main.elf #查询符号表
+readelf -l main.elf #查询程序头表
+readelf -h main.elf #查询文件头数据
+readelf -r main.elf #查询重定位入口
+readelf -d main.elf #查询动态段
+
+objdump -D main.elf #查看ELF文件中所有节的反汇编程序代码
+objdump -d main.elf #只查看ELF文件中的反汇编程序代码
+objdump -tT main.elf #查看所有符号
+
+hexdump -C main.elf #查看二进制文件显示字符
+od -t x1 main.elf
+file main.elf 
+
+trace

@@ -1,0 +1,1 @@
+void test1_fun(void);
