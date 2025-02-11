@@ -1,0 +1,433 @@
+Bash，Unix shell的一种，在1987年由布莱恩·福克斯为了GNU计划而编写。1989年发布第一个正式版本，原先是计划用在GNU操作系统上，但能运行于大多数类Unix系统的操作系统之上，包括Linux与Mac OS X v10.4都将它作为默认shell。
+Bash是Bourne shell的后继兼容版本与开放源代码版本，它的名称来自Bourne shell（sh）的一个双关语（Bourne again / born again）：Bourne-Again SHell。
+Bash是一个命令处理器，通常运行于文本窗口中，并能执行用户直接输入的命令。Bash还能从文件中读取命令，这样的文件称为脚本。和其他Unix shell 一样，它支持文件名替换（通配符匹配）、管道、here文档、命令替换、变量，以及条件判断和循环遍历的结构控制语句。包括关键字、语法在内的基本特性全部是从sh借鉴过来的。其他特性，例如历史命令，是从csh和ksh借鉴而来。总的来说，Bash虽然是一个满足POSIX规范的shell，但有很多扩展。
+
+
+链接: https://pan.baidu.com/s/1GcsD2gZjCE38jMabupRe5A?pwd=7dee 提取码: 7dee
+
+compgen -c //ubuntu内部命令
+ps -ef
+top
+sudo lshw -C network
+ifconfig
+date
+df -lh
+systemctl show
+systemctl status ssh
+netstat -atunp		//查询所有端口状态
+netstat -anp | grep 8080	//查询8080端口状态
+kill -9 PID
+vim /etc/hostname		//更改主机名
+mkdir xxx
+touch xxx
+rm -rf xxx
+mv xxx yyy
+cp xxx yyy
+chmod o+wr xxx 		//增加写入和读取权限
+chmod 777 xxx
+chmod g+w * //拷贝后的文件获得组写入权限
+chmod a+s * //who 执行权限
+
+chown -R user xxx	//为用户增加xxx所有权限
+chown -R user:group xxx	//为xxx指定用户和组
+每个 <模式> 都应当符合此格式："[ugoa]*([-+=]([rwxXst]*|[ugo]))+|[-+=][0-7]+"。
+sudo chgrp users ./share/
+
+ls -lh
+whereis xxx		//查看xxx安装路径
+tree /home
+find / -name xxx
+find /opt -user root	//查询用户名为root所有文件	
+sudo -i //root用户
+
+tar -zcvf xxx.tar.gz xxx/
+tar -zxvf xxx.tgz 
+
+
+sudo mount -o rw,remount /dev/sdd1
+
+cat /etc/shells 
+echo $SHELL
+
+sudo /etc/init.d/smbd restart
+sudo service smbd restart
+
+sudo fdisk -l
+sudo ntfsfix /dev/sdd1
+sudo ntfsfix /dev/sdb1
+sudo umount -a
+sudo mount -a
+
+fbterm byobu 
+cd $(ls -1 | sed -n 3p) //选择进入乱码目录
+
+fcitx
+startx
+//安装图形界面
+apt remove lightdm
+apt install ubuntu-desktop
+apt install unity
+apt install lightdm
+
+sudo grub-install
+sudo update-grub
+sudo apt remove --purge alsa-base
+sudo apt remove --purge pulseaudio
+sudo apt install alsa-base
+sudo apt install pulseaudio
+sudo alsa force-reload
+
+grep swap /etc/fstab 
+swapon -s
+swapoff -a
+swapoff /dev/sdc2
+sudo swapon -p 1 /dev/sdc2
+sudo sysctl vm.swappiness=60
+sudo gedit /etc/sysctl.conf 
+
+which boot-repair
+systemd-analyze blame //启动占用时间分析
+
+lsblk -o NAME,PTUUID,PARTUUID,UUID
+sudo blkid /dev/sdax
+lshw 
+
+losetup -a
+sudo apt autoremove --purge snapd 
+snap list --all
+sudo snap remove firefox
+
+dd if=/dev/sda1 of=/mnt/sys.img bs=4M
+dd if=/mnt/sys.img of=/dev/sda1 bs=4M status=progress
+dd if=testfile_2 of=testfile_1 conv=ucase 
+dd if=input.file of=output.gz bs=1M conv=sync,noerror
+
+sudo blkid //显示所有硬盘ID
+blkid /dev/sdc3
+xfs_admin /dev/sdc3 //重新生成UUID
+sudo tune2fs -U random /dev/sda1 //重新生成UUID
+lsblk //显示磁盘分区
+sudo fdisk -l 
+
+
+# 这是用逗号分隔的字符集列表，gFTP,二进制传输模式。
+# 会使用这些字符集将远程信息转换为当前语系。
+remote_charsets=gb2312,utf-8
+
+ibus-daemon -drx 切换ibus输入法
+fcitx-remote -s
+
+使用dd命令克隆一个硬盘通常会克隆原始硬盘的所有数据，包括MBR（主引导记录）、GPT（GUID分区表）和分区表。如果克隆后的硬盘无法启动，可能是因为以下原因：
+
+MBR被克隆，但是硬盘大小或分区结构发生了变化。
+
+GPT分区表没有被正确克隆或者克隆后的硬盘不支持GPT。
+
+克隆过程中某些重要的启动分区或数据丢失或损坏。
+
+解决方法：
+
+确认克隆过程中是否有错误提示。
+
+使用gdisk或fdisk检查克隆后硬盘的分区表，确认分区类型和大小是否正确。
+
+如果是UEFI启动，确保GPT分区表正确，可能需要使用gdisk或parted工具修复。
+
+如果是BIOS启动，确保MBR是正确的，可以使用bootrec命令（Windows）或者fdisk（Linux）和mkfs命令修复MBR。
+
+确保引导加载程序配置正确，如GRUB。
+
+如果有必要，可以尝试重新安装引导加载程序，如使用Windows安装盘修复引导记录，或者在Linux中使用chroot环境安装GRUB。
+
+chroot 需要先绑定目录proc,sys,dev 切换根路径成功后安装grub-install.
+
+重新生成该内核的initrd.img文件重置swap分区UUID,如果不拆除原硬盘还需要重新生成新硬盘分区UUID,修改fstab分区加载配置.
+
+sudo lsblk
+sudo more /etc/fstab
+#fix mbr grub boot
+mkdir /mnt/gao
+sudo mount /dev/sda2 /mnt/gao/
+sudo mount /dev/sda1 /mnt/gao/boot/
+sudo mount --bind /proc /mnt/gao/proc/
+sudo mount --bind /sys /mnt/gao/sys/
+sudo mount --bind /dev /mnt/gao/dev/
+sudo chroot /mnt/gao
+sudo update-grub
+sudo umount /mnt/gao/{proc,sys,dev}
+sudo umount /mnt/gao/boot 
+sudo umount /mnt/gao/
+#change swap
+sudo mkswap /dev/sda4
+sudo swapon /dev/sda4
+swapon -s
+swapoff /dev/sdc2
+sudo nano /etc/fstab
+systemctl list-units --type=service //加载服务列表
+systemctl  list-units --failed  //查看加载失败的服务程序
+journalctl -xeu user@1000.service //获取服务动态systemctl status user@1000.service
+
+sudo truncate -s 0 /var/log/syslog //清除日志文件
+sudo journalctl --vacuum-time=1d // 清除systemd-journald 存储的日志
+
+sudo update-initramfs -u 更新当前内核initramfs,swap UUID
+du -h /boot/vmlinuz-6.5.0-35-generic 
+du -h /boot/initrd.img-6.5.0-35-generic
+
+#sudo nano /etc/grub.d/40_custom 
+#ro,quiet,splash 只读模式根文件系统,减少输出信息,展示启动界面.
+#searrch --no-floppy --fs-uuid --set=root uuid 不搜索软盘,使用UUID,找到后设置为根root
+menuentry "Live Ubuntu" {
+    insmod loopback
+    set isofile="/media/gonagawa/ubuntu-24.04-desktop-amd64.iso"
+    loopback loop (hd0,2)$isofile
+    linux (loop)/casper/vmlinuz boot=casper iso-scan/filename=$isofile
+    initrd (loop)/casper/initrd
+}
+menuentry "Boot from ISO" {
+    set root=(hd0,2)
+    set isofile="/media/gonagawa/boot-repair-disk-64bit.iso"	#指定ISO文件的位置
+    loopback loop $isofile	#创建一个循环设备来装载ISO
+    linux (loop)/casper/vmlinuz boot=casper iso-scan/filename=$isofile ro quiet splash	#指定内核和初始化RAM磁盘位置
+    initrd (loop)/casper/initrd.lz
+}
+
+MBR 扇区的CHS地址为0柱面,0磁头,1扇区,早期的约定.现代磁盘使用LBA地址方案统一编址,从LBA0扇区开始.第一分区从2048扇区开始.
+
+git clone https://github.com/u-boot/u-boot.git
+make menuconfig //或者 make boardconfig #./configs
+make 
+
+free -s 5
+ctrl+z 
+jobs
+fg %1
+#查看环境变量
+export
+set
+nano /etc/environment
+#可以推测出Linux加载环境变量的顺序如下：
+
+/etc/environment
+/etc/profile
+/etc/bash.bashrc
+/etc/profile.d/test.sh
+~/.profile
+~/.bashrc
+#查询安装软件列表
+dpkg --list | grep jlink
+dpkg -r jlink
+/usr/share/applications
+
+sudo apt install libftdi-dev openocd 
+lsusb -v 
+lsusb -t
+
+pm-hibernate //休眠 hibernate 保存信息到硬盘.
+sudo pm-suspend //挂起,halt,睡眠,seelp 保存信息到内存.
+
+更新系统和驱动程序：运行以下命令更新系统和驱动程序：
+sudo apt update
+sudo apt upgrade
+sudo apt dist-upgrade
+sudo apt install --reinstall linux-image-generic
+sudo reboot
+重新安装图形界面：如果是图形界面的问题，可以尝试重新安装图形环境。例如，如果你使用的是GNOME，可以使用以下命令：
+sudo apt-get install --reinstall gnome-shell
+sudo reboot
+使用命令行工具：可以使用pm-suspend或systemctl suspend命令来尝试挂起系统。如果这些命令工作，可能是图形界面的问题。
+sudo apt update && sudo apt upgrade
+
+sudo apt update
+sudo apt install build-essential
+
+sudo apt install qtbase5-dev qttools5-dev qtdeclarative5-dev qtcreator //QT creator 安装工具
+
+sudo apt install build-essential qtbase5-dev qttools5-dev qtdeclarative5-dev qtmultimedia5-dev qtscript5-dev qtsvg5-dev qtx11extras5-dev qtwebengine5-dev libssl-dev libxml2-dev libxslt-dev libsqlite3-dev libudev-dev libdbus-1-dev qtcreator //QT通用工具库
+
+sudo apt install qtmultimedia5-dev qtscript5-dev qtsvg5-dev qtx11extras5-dev qtwebengine5-dev //额外的Qt模块
+
+sudo apt install libssl-dev libxml2-dev libxslt-dev libsqlite3-dev libudev-dev libdbus-1-dev //其他有用的库
+
+sudo apt install qml-module-qtquick-controls
+sudo apt install qml-module-qtquick-window2
+sudo apt install qml-module-qtquick2
+
+ sudo apt install python3-pyside2.qtqml
+ sudo apt install python3-pyside2.qtquick
+ sudo apt install python3-pyside2.qtquickwidgets
+ 
+dpkg --get-selections | grep libqt
+
+
+iperf -u -c 172.18.17.199 -i 1 -b 100M //-u UDP -c client -i intevaltime second -b bitrate
+
+sudo apt install qtbase5-dev qt5-qmake libqt5x11extras5-dev //QT x11插件
+
+//home搬家
+sudo mkdir /mnt/newhome
+sudo mount /dev/sda3 /mnt/newhome
+sudo rsync -av --progress /home/ /mnt/newhome/
+sudo blkid
+sudo nano /etc/fstab
+UUID=your-uuid-here /home ext4 defaults 0 2
+sudo reboot 
+//取消Home挂载,显示原Home目录,重命名原Home目录,重新挂载新的设备到Home目录
+sudo unmount /dev/sda3 
+sudo mv /home /home.old
+sudo mkdir /home
+sudo mount /dev/sda3 /home
+
+df -h /home
+
+//md5 校验
+md5sum filename
+sha1sum filename
+sha256sum filename
+sha512sum filename
+//windows10 powershell
+certutil -hashfile filename md5
+certutil -hashfile filename sha1
+certutil -hashfile filename sha256
+
+//tmpfs 内存文件设备
+//sudo mount --bind 参数同时挂载多个设备在相同目录,否则原来目录内容隐藏.
+sudo mount --bind /mnt/data /mnt/newdata
+ln -s /mnt/data /mnt/newdata 
+//清理boot镜像文件
+dpkg --list | grep linux-image
+sudo apt remove --purge linux-image-6.5.0-35-generic
+sudo apt autoremove
+sudo update-grub
+//安装声卡驱动
+aplay -l
+sudo ubuntu-drivers autoinstall
+sudo apt install pulseaudio
+sudo dmesg | grep -i audio
+pulseaudio --check
+pulseaudio --kill
+pulseaudio --start 
+
+rhythmbox &
+rhythmbox-client --quit
+
+lsb_release -a
+python --version
+
+
+ls -al ~/.ssh
+
+ssh-keygen -t rsa -b 4096 -C "your_email_for_github@example.com" -f ~/.ssh/id_rsa_github
+ssh-keygen -t rsa -b 4096 -C "your_email_for_gitee@example.com" -f ~/.ssh/id_rsa_gitee
+
+cat ~/.ssh/id_rsa.pub
+ssh -T git@gitee.com
+ssh -T git@github.com
+
+cd /path/to/gitee-repo
+git config user.name "Your Gitee Name"
+git config user.email "your_gitee_email@example.com"
+
+cd /path/to/github-repo
+git config --global user.name "chao_wudi@163.com"
+git config user.name "chao_wudi@163.com"
+git config user.email "chao_wudi@163.com"
+
+python3 -m venv venv
+source venv/bin/activate
+pip3 install requests
+deactivate
+方法二：使用 --break-system-packages 选项（不推荐）,容易扰乱系统APT包管理
+
+可能是 venv/pyvenv.cfg
+打开 pyvenv.cfg 文件，找到 include-system-site-packages 行，将其值设置为 true：
+home = /usr/bin
+include-system-site-packages = true
+version = 3.8.5
+
+# 删除编译输出目录
+rm -rf out
+
+# 删除临时文件和缓存
+rm -rf .repo/project-objects
+rm -rf .repo/projects
+
+rm -rf .repo/cache
+
+//若您使用的是Ubuntu20及以上版本，由于gcc-multilib和gcc-arm-linux-gnueabi互斥，请勿安装gcc-arm-linux-gnueabi。
+
+# operation for /etc/resolv.conf.
+
+nameserver 127.0.0.53
+options edns0 trust-ad
+search .
+
+sudo apt install fcitx fcitx-pinyin
+echo "export GTK_IM_MODULE=fcitx" >> ~/.profile
+echo "export QT_IM_MODULE=fcitx" >> ~/.profile
+echo "export XMODIFIERS=@im=fcitx" >> ~/.profile 
+
+
+sudo apt install ibus ibus-pinyin
+echo "export GTK_IM_MODULE=ibus" >> ~/.profile
+echo "export QT_IM_MODULE=ibus" >> ~/.profile
+echo "export XMODIFIERS=@im=ibus" >> ~/.profile 
+
+sudo apt install debootstrap
+sudo apt install schroot
+mkdir chroot
+
+
+sudo debootstrap --variant=buildd --arch amd64 saucy /mnt/OpenHarmony/chroot http://archive.ubuntu.com/ubuntu/
+sudo chroot /linoxide /debootstrap/debootstrap --second-stage
+注意：如果你是在64位系统中创建32位系统，你需要在上面第3行命令中加入 --foreign 选项，就像下面的命令：
+sudo debootstrap --variant=buildd --foreign --arch i386 saucy /linoxide/ http://archive.ubuntu.com/ubuntu/
+
+sudo debootstrap --arch $(dpkg-architecture -qDEB_TARGET_ARCH_CPU) stable /mnt/OpenHarmony/chroot http://ftp.cn.debian.org/debian
+
+sudo mount --bind /proc/ /mnt/OpenHarmony/chroot/
+sudo mount --bind /sys/ /mnt/OpenHarmony/chroot/
+sudo mount --bind /dev/ /mnt/OpenHarmony/chroot/
+sudo mount --bind /run/ /mnt/OpenHarmony/chroot/
+sudo mount --bind /tmp/ /mnt/OpenHarmony/chroot/
+
+sudo umount /mnt/OpenHarmony/chroot/proc/
+sudo umount /mnt/OpenHarmony/chroot/sys/
+sudo umount /mnt/OpenHarmony/chroot/dev/
+sudo umount /mnt/OpenHarmony/chroot/run/
+sudo umount /mnt/OpenHarmony/chroot/tmp/
+
+# lsb_release -a
+# uname -a
+
+ln -s ~/公共的 ~/Share
+sudo apt dist-upgrade // system upgrade
+sudo apt download app //download local app
+sudo apt remove packagename //ruanjian bao
+sudo apt remove --purge packagename //shanchu runjianbao yiji peizhiwendang
+sudo apt autoremov packagename //yilai
+sudo apt autoremov --purge packagename //peizhi gengchedi
+sudo apt autoclean //qingli yishanchu ruanjian beifen
+sudo apt clean //shanchu yianzhuang ruanjianbao beifen 
+
+
+sysbench memory --memory-block-size=8k --memory-total-size=4G run
+sysbench cpu --threads=20 run
+sysbench cpu --cpu-max-prime=2000 run
+sysbench fileio --file-total-size=10G --file-test-mode=rndrw prepare
+sysbench fileio --file-total-size=10G --file-test-mode=rndrw run
+
+systemctl start gdm //qidong xitong jiemian
+dmesg | grep SATA //xianshi xitong xinxi shaixuan SATA
+hardinfo blender memtest86+
+stress lm-sensor
+
+hostname
+/etc/hostname /etc/hosts
+hostnamectl set-hostname gonagawa-office2
+
+sudo systemctl suspend
+sudo systemctl hibernate
+sudo systemctl hybrid-sleep
+history | more 
+
